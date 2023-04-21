@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Library of Congress</title>
+	<link rel="icon" href="images/icon.jpg">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script>
+		// Define an array of book objects with title, author, and type properties
+		var books = [
+			{title: "The Great Gatsby", author: "F. Scott Fitzgerald", type: "Classic", imgSrc: "greatgatsby.jpg"},
+			{title: "To Kill a Mockingbird", author: "Harper Lee", type: "Classic", imgSrc: "mockingbird.jpg"},
+			{title: "1984", author: "George Orwell", type: "Dystopian", imgSrc: "1984.jpg"},
+			{title: "The Catcher in the Rye", author: "J.D. Salinger", type: "Classic", imgSrc: "catcher.jpg"},
+			{title: "One Hundred Years of Solitude", author: "Gabriel García Márquez", type: "Magical Realism", imgSrc: "100years.jpg"},
+			{title: "Pride and Prejudice", author: "Jane Austen", type: "Classic", imgSrc: "pride.jpg"},
+			{title: "The Hobbit", author: "J.R.R. Tolkien", type: "Fantasy", imgSrc: "hobbit.jpg"},
+			{title: "Animal Farm", author: "George Orwell", type: "Political Satire", imgSrc: "animal.jpg"},
+			{title: "The Lord of the Rings", author: "J.R.R. Tolkien", type: "Fantasy", imgSrc: "rings.jpg"},
+			{title: "Brave New World", author: "Aldous Huxley", type: "Dystopian", imgSrc: "brave.jpg"},
+			{title: "The Hitchhiker's Guide to the Galaxy", author: "Douglas Adams", type: "Science Fiction", imgSrc: "galaxy.jpg"},
+			{title: "Harry Potter and the Philosopher's Stone", author: "J.K. Rowling", type: "Fantasy", imgSrc: "potter.jpg"},
+			{title: "The Hunger Games", author: "Suzanne Collins", type: "Dystopian", imgSrc: "hunger.jpg"},
+			{title: "The Da Vinci Code", author: "Dan Brown", type: "Mystery", imgSrc: "davinci.jpg"},
+			{title: "The Girl with the Dragon Tattoo", author: "Stieg Larsson", type: "Mystery", imgSrc: "dragon.jpg"},
+			{title: "The Girl on the Train", author: "Paula Hawkins", type: "Thriller", imgSrc: "train.jpg"},
+			{title: "Gone Girl", author: "Gillian Flynn", type: "Mystery", imgSrc: "gone.jpg"},
+			{title: "The Fault in Our Stars", author: "John Green", type: "Young Adult", imgSrc: "stars.jpg"},
+			{title: "The Alchemist", author: "Paulo Coelho", type: "Fiction", imgSrc: "alchemist.jpg"}
+    	];
+
+		// Define an array to hold the books added to the cart
+		var cart = [];
+
+		function showAllBooks() {
+			// Update the book container with all the books
+			var bookContainer = document.getElementById("book-container");
+			bookContainer.innerHTML = "";
+			for (var i = 0; i < books.length; i++) {
+				var book = books[i];
+				var bookElement = document.createElement("div");
+				bookElement.className = "book";
+				bookElement.innerHTML = '<img src="images/' + book.imgSrc + '" alt="Book Cover">' +
+										'<h3>' + book.title + '</h3>' +
+                                        '<p>' + book.author + '</p>' +
+                                        '<p>' + book.type + '</p>' +
+                                        '<button onclick="addToCart(' + i + ')">Add to Cart</button>';
+                bookContainer.appendChild(bookElement);
+            }
+        }
+        function addToCart(bookIndex) {
+		// Add the selected book to the cart array
+		var selectedBook = books[bookIndex];
+		cart.push(selectedBook);
+
+		// Update the cart count in the header
+		var cartCount = document.getElementById("cart-count");
+		cartCount.innerHTML = cart.length;
+	}
+
+	function showCart() {
+		// Update the book container with the books in the cart
+		var bookContainer = document.getElementById("book-container");
+		bookContainer.innerHTML = "";
+		for (var i = 0; i < cart.length; i++) {
+			var book = cart[i];
+			var bookElement = document.createElement("div");
+			bookElement.className = "book";
+			bookElement.innerHTML = '<img src="images/' + book.imgSrc + '" alt="Book Cover">' +
+									'<h3>' + book.title + '</h3>' +
+									'<p>' + book.author + '</p>' +
+									'<p>' + book.type + '</p>';
+			bookContainer.appendChild(bookElement);
+		}
+	}
+	function searchBooks() {
+		// Get the input value from the search box
+		var searchInput = document.getElementById("search-box").value.toLowerCase();
+
+		// Filter the books array based on the search input
+		var filteredBooks = books.filter(function(book) {
+			return book.title.toLowerCase().includes(searchInput) ||
+					book.author.toLowerCase().includes(searchInput) ||
+					book.type.toLowerCase().includes(searchInput);
+		});
+
+		// Update the book container with the filtered books
+		var bookContainer = document.getElementById("book-container");
+		bookContainer.innerHTML = "";
+		for (var i = 0; i < filteredBooks.length; i++) {
+			var book = filteredBooks[i];
+			var bookElement = document.createElement("div");
+			bookElement.className = "book";
+			bookElement.innerHTML = '<img src="images/' + book.imgSrc + '" alt="Book Cover">' +
+									'<h3>' + book.title + '</h3>' +
+									'<p>Author: ' + book.author + '</p>' +
+									'<p>Type: ' + book.type + '</p>' +
+									'<button class="add-to-cart" onclick="addToCart(' + i + ')">Add to Cart</button>';
+			bookContainer.appendChild(bookElement);
+		}
+	}
+</script>
+</head>
+<body>
+	<header>
+		<h1><centre>WELCOME TO THE LIBRARY</centre></h1>
+		<br>
+		<nav>
+			<div class="navi">
+				<div align="center" class="search-box-container">
+					<input type="text" id="search-box" placeholder="Search by title,author,type">
+					<button class="nav-button" onclick="searchBooks()">Search</button>
+				</div>
+				<li><a href="#" onclick="showAllBooks()">All Books</a></li>
+				<li><a href="#" onclick="showCart()">Cart (<span id="cart-count">0</span>)</a></li>
+			<div>
+		</nav>
+	</header>
+	<div id="book-container"></div>
+	<script>
+		showAllBooks();
+	</script>
+</body>
+</html>                        
